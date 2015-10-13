@@ -3,25 +3,17 @@ function Controller(view, model){
 	this.model = model;
 }
 
-document.addEventListener('DOMContentLoaded', listen);
-
-function listen(){
+Controller.prototype.bindEventListeners = function(){
 	console.log(document.getElementById("bookmarks"));
-	document.getElementById("tagIt").addEventListener("click", myAlert);
-	document.getElementById("yourTags").addEventListener("click", myAlert);
-	document.getElementById("recent").addEventListener("click", myAlert);
-	document.getElementById("options").addEventListener("click", myAlert);
+	this.view.tagIt().addEventListener("click", myAlert);
+	this.view.yourTags().addEventListener("click", myAlert);
+	this.view.recent().addEventListener("click", myAlert);
+	this.view.options().addEventListener("click", myAlert);
 };
 
 function myAlert(){
-	alert("clicked!");
+	console.log("clicked!");
 }
-// Controller.prototype.listen = function(){
-// 	this.view.tagIt().addEventListener("click", alert("clicked!"), false);
-// 	this.view.yourTags().addEventListener("click", alert("clicked!"), false);
-// 	this.view.recent().addEventListener("click", alert("clicked!"), false);
-// 	this.view.options().addEventListener("click", alert("clicked!"), false);
-// };
 
 Controller.prototype.getUsersBookmarkTree = function(tab, callback){
 	chrome.bookmarks.getTree(function(results){

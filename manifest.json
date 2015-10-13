@@ -3,10 +3,7 @@
   "name": "Marinade",
   "description": "This extension makes your bookmarks better.",
   "version": "0.0.1",
-  "background": {
-    "scripts": ["controller.js", "model.js", "init.js", "view.js"],
-    "persistent": true
-  },
+
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"

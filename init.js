@@ -5,5 +5,7 @@ function init(){
 	var model = new PrimaryBookmarksTree;
 	var controller = new Controller(view, model);
 	console.log(controller);
+	controller.bindEventListeners();
+
 }
 
