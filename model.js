@@ -1,5 +1,54 @@
 function PrimaryBookmarksTree(){
-	this.bookmarks = [];
+	this.bookmarks = [
+		{
+			dateCreated: "10/12/2015",
+			name: "my favorite site",
+			tags: ["fun", "dogs", "bark"],
+			url: "www.thecaseplace.co"
+		},
+		{
+			dateCreated: "10/12/2015",
+			name: "my other fave",
+			tags: ["fun", "work"],
+			url: "www.thesuiteclub.co"
+		},
+		{
+			dateCreated: "10/11/2015",
+			name: "my third fave",
+			tags: ["fun", "dogs", "shark"],
+			url: "www.barklar.com"
+		}
+	];
+	this.tagGroups = {
+		fun: [
+			{
+			dateCreated: "10/12/2015",
+			name: "my favorite site",
+			tags: ["fun", "dogs", "bark"],
+			url: "www.thecaseplace.co"
+			},
+			{
+			dateCreated: "10/12/2015",
+			name: "my other fave",
+			tags: ["fun", "work"],
+			url: "www.thesuiteclub.co"
+			}
+		],
+		dogs: [
+			{
+			dateCreated: "10/12/2015",
+			name: "my favorite site",
+			tags: ["fun", "dogs", "bark"],
+			url: "www.thecaseplace.co"
+			},
+			{
+			dateCreated: "10/11/2015",
+			name: "my third fave",
+			tags: ["fun", "dogs", "shark"],
+			url: "www.barklar.com"
+			}
+		]
+	};
 	this.title = "Marinade Bookmarks";
 }
 
@@ -38,23 +87,4 @@ PrimaryBookmarksTree.prototype.createNewtagGroup = function(tag){
 PrimaryBookmarksTree.prototype.createBookmark = function(name, url, tags){
 	newBookmark = new Bookmark(name, url, tags);
 	this.bookmarks.push(newBookmark);
-}
-
-PrimaryBookmarksTree.prototype.checkForTagGroup = function(){
-	var tagsToCheck = this.pluck(this.bookmarks, "tags")
-	console.log(tagsToCheck);
-}
-
-PrimaryBookmarksTree.prototype.pluck = function(list, prop){
-	var results = [];
-	if (Array.isArray(list)){
-		for (i=0; i<list.length; i++){
-			for (var key in list[i]){
-				if (key == prop){
-					results.push(list[i][prop])
-				}			
-			}
-		}
-	}
-	return results;
 }

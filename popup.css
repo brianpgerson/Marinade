@@ -1,0 +1,30 @@
+body {
+	width: 200px; 
+	height: 200px;
+	font-family: Helvetica, arial, sans-serif; 
+}
+
+ul {
+	padding: 0;
+}
+
+h1 {
+	text-align: center;
+}
+
+li {
+	list-style: none;
+	cursor: pointer;
+	font-size: 1.1em;
+    padding: 6px 6px;
+    border-radius:5px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+li:hover {
+	transition-property: background-color;
+	transition-duration: 1s;
+	background-color: #c5c;
+}
