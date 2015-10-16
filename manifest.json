@@ -12,7 +12,7 @@
   ],
   "background": {
     "scripts": ["controller.js", "view.js", "model.js", "init.js"],
-    "persistent": false
+    "persistent": true
     },
   "browser_action": {
     "default_popup": "popup.html",

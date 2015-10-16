@@ -17,14 +17,14 @@ function createPopUp(message){
 		var dialogModal = document.createElement("div");
 		dialogModal.setAttribute("id","marinadeDiv");
 
-		var marinadeForms = document.createElement("p");
-		marinadeForms.setAttribute("id", "marinadeForms");
-		marinadeForms.innerHTML = "<span id='marinadeSpan'>Title</span><br /><input type='text' name='marinadeTitle' value = "+"'"+message.tabTitle+"'"+"><br /><span id='marinadeSpan'>Tags</span><br /><input type='text' name='mtags'><br /><button id='mDone' type='button'>Done</button><button id='mCancel' type='button'>Cancel</button>";
+		dialogModal.innerHTML = "<span id='marinadeSpan'>Title</span><br /><input type='text' name='marinadeTitle' value = "+"'"+message.tabTitle+"'"+"><br /><span id='marinadeSpan'>Tags</span><br /><input type='text' name='mtags' id = 'mtags'><br /><button id='mDone' type='button'>Done</button><button id='mCancel' type='button'>Cancel</button>";
 
-		dialogModal.appendChild(marinadeForms);
 		document.body.appendChild(dialogModal);
 
 		document.getElementById("mCancel").addEventListener("click", cancelDialog);
+
+		document.getElementById("mtags").focus();
+
 	} else {
 	document.getElementById("marinadeDiv").setAttribute("class", "shown");
 	}

@@ -1,7 +1,7 @@
 #marinadeDiv {
-	height: 200px;
+	height: 14;
 	width: 200px;
-	background-color: #c5c;
+	background-color: rgba(255, 255, 255, .75);
 	top: 100px;
 	position: fixed;
 	left:50%;
@@ -11,8 +11,28 @@
 }
 
 #marinadeDiv input[type="text"] {
-	width: 80%;
+	width: 95%;
 	border-radius: 5px;
+	padding: 2px;
+	display: inline;
+	background-color: #F5F9FD;
+	border: 1px solid #1C1C1C;
+	position: default;
+	font-size: 12px;
+	font-family: 'Quicksand', Helvetica, arial, sans-serif; 
+	font-style: normal;
+	height: 22px;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+
+#marinadeSpan {
+	font-family: 'Quicksand', Helvetica, arial, sans-serif; 
+	font-size: 12px;
+	line-height: 18px;
+	color: black;
+	font-style: normal;
+	font-weight: bolder;
 }
 
 .hidden {
@@ -22,3 +42,16 @@
 .shown {
 	display: block;
 }
+
+#marinadeDiv button {
+	border-radius: 5px;
+	margin-right: 10px; 
+	background-color: #c5c;
+	border: 0px;
+	font-family: 'Quicksand', Helvetica, arial, sans-serif; 
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	padding: 5px;
+}
+
