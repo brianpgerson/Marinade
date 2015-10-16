@@ -3,31 +3,23 @@ function Controller(view, model){
 	this.model = model;
 }
 
-Controller.prototype.bindEventListeners = function(){
-	console.log(document.getElementById("bookmarks"));
-	this.view.tagIt().addEventListener("click", myAlert);
-	this.view.yourTags().addEventListener("click", myAlert);
-	this.view.recent().addEventListener("click", myAlert);
-	this.view.options().addEventListener("click", myAlert);
-};
-
-function myAlert(){
-	console.log("clicked!");
+Controller.prototype.bindListeners = function(){
+	chrome.runtime.onMessage.addListener(this.messageHandler.bind(this));
 }
 
-Controller.prototype.getUsersBookmarkTree = function(tab, callback){
-	chrome.bookmarks.getTree(function(results){
-		callback(results[0].children[0].id, tab);
-	});
+Controller.prototype.messageHandler = function(request, sender, sendResponse) {
+	if(request.type == "tagIt") {
+		this.tagIt();
+	}
 }
 
-
-chrome.browserAction.onClicked.addListener(function(){
-	getCurrentTabUrl(function(tab){
-		chrome.bookmarks.create({url: tab.url, title: tab.title, parentId: "1"});
+Controller.prototype.tagIt = function(){
+	this.view.getCurrentTabUrl(function(tab){
+		chrome.tabs.sendMessage(tab.id, {greeting: "new tag", tabUrl: tab.url, tabTitle: tab.title}, function(response) {
+			console.log(response.farewell);
+		});
 	});
-});
-
+}
 
 Controller.prototype.getTagGroups = function(callback){
 	var tagsToCheck = this.pluck(this.model.bookmarks, "tags");

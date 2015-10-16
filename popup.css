@@ -1,7 +1,8 @@
 body {
 	width: 200px; 
 	height: 200px;
-	font-family: Helvetica, arial, sans-serif; 
+	font-family: 'Quicksand', Helvetica, arial, sans-serif; 
+	margin: 8px 0;
 }
 
 ul {
@@ -10,6 +11,7 @@ ul {
 
 h1 {
 	text-align: center;
+	color: #c5c;
 }
 
 li {
@@ -21,10 +23,23 @@ li {
     border-bottom: 1px solid #ddd;
 }
 
+.dumbLetters {
+	transition-property: background-color, color;
+	transition-duration: 1s;
+	border-radius: 5px;
+	cursor: default;
+}
 
+.dumbLetters:hover {
+	transition-property: background-color, color;
+	transition-duration: .5s;
+	background-color: #c5c;
+	color: white;
+}
 
 li:hover {
 	transition-property: background-color;
 	transition-duration: 1s;
 	background-color: #c5c;
+	cursor: pointer;
 }

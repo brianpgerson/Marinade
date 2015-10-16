@@ -1,0 +1,24 @@
+#marinadeDiv {
+	height: 200px;
+	width: 200px;
+	background-color: #c5c;
+	top: 100px;
+	position: fixed;
+	left:50%;
+	transform: translateX(-50%);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+#marinadeDiv input[type="text"] {
+	width: 80%;
+	border-radius: 5px;
+}
+
+.hidden {
+	display: none;
+}
+
+.shown {
+	display: block;
+}
