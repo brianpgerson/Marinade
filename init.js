@@ -6,5 +6,6 @@ function init(){
 	var controller = new Controller(view, model);
 	controller.bindListeners();
 	console.log(controller);
+	console.log(model);
 }
 

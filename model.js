@@ -1,55 +1,18 @@
 function PrimaryBookmarksTree(){
-	this.bookmarks = [
-		{
-			dateCreated: "10/12/2015",
-			name: "my favorite site",
-			tags: ["fun", "dogs", "bark"],
-			url: "www.thecaseplace.co"
-		},
-		{
-			dateCreated: "10/12/2015",
-			name: "my other fave",
-			tags: ["fun", "work"],
-			url: "www.thesuiteclub.co"
-		},
-		{
-			dateCreated: "10/11/2015",
-			name: "my third fave",
-			tags: ["fun", "dogs", "shark"],
-			url: "www.barklar.com"
-		}
-	];
-	this.tagGroups = {
-		fun: [
-			{
-			dateCreated: "10/12/2015",
-			name: "my favorite site",
-			tags: ["fun", "dogs", "bark"],
-			url: "www.thecaseplace.co"
-			},
-			{
-			dateCreated: "10/12/2015",
-			name: "my other fave",
-			tags: ["fun", "work"],
-			url: "www.thesuiteclub.co"
-			}
-		],
-		dogs: [
-			{
-			dateCreated: "10/12/2015",
-			name: "my favorite site",
-			tags: ["fun", "dogs", "bark"],
-			url: "www.thecaseplace.co"
-			},
-			{
-			dateCreated: "10/11/2015",
-			name: "my third fave",
-			tags: ["fun", "dogs", "shark"],
-			url: "www.barklar.com"
-			}
-		]
-	};
-	this.title = "Marinade Bookmarks";
+	chrome.storage.sync.get(this.findOrCreate.bind(this));
+}
+
+PrimaryBookmarksTree.prototype.findOrCreate = function(result){
+	if (result.bookmarksTree != undefined){
+		this.bookmarks = result.bookmarksTree.bookmarks;
+		this.title = result.bookmarksTree.bookmarks.title;
+		this.tagGroups = result.bookmarksTree.bookmarks.tagGroups;
+	} else {
+		this.bookmarks = [];
+		this.title = "Marinade Bookmarks";
+		this.tagGroups = [];
+		chrome.storage.sync.set({"bookmarksTree": this}, function(){console.log("New tree created!")});
+	}
 }
 
 function tagGroup(tag){
@@ -57,11 +20,11 @@ function tagGroup(tag){
 	this.tag = tag;
 }
 
-function Bookmark(name, url, tags){
+function Bookmark(name, tags, url){
 	this.name = name;
+	this.tags = tags;
 	this.url = url;
 	this.dateCreated = this.date();
-	this.tags = tags;
 }
 
 Bookmark.prototype.date = function(){
@@ -79,12 +42,34 @@ Bookmark.prototype.date = function(){
 }
 
 
-PrimaryBookmarksTree.prototype.createNewtagGroup = function(tag){
-	newTree = new tagGroup(tag)
+PrimaryBookmarksTree.prototype.createNewTagGroup = function(tagGroups){
+	chrome.storage.sync.get(function(result){
+		if (result.bookmarksTree === undefined){
+			console.log("Nothing here!");
+		} else {
+			for (i = 0; i<result.bookmarksTree.bookmarks.length; i++){
+				console.log("okay")
+			}
+		}
+	});
+
 	this.bookmarks.push(newTree);
 }
 
-PrimaryBookmarksTree.prototype.createBookmark = function(name, url, tags){
-	newBookmark = new Bookmark(name, url, tags);
-	this.bookmarks.push(newBookmark);
+PrimaryBookmarksTree.prototype.createNewBookmark = function(name, tags, url){
+	var newBookmark = new Bookmark(name, tags, url);
+
+	chrome.storage.sync.get(function(result){
+			result.bookmarksTree.bookmarks.push(newBookmark);
+			this.updateStorage(result);
+	}.bind(this));
 }
+
+
+PrimaryBookmarksTree.prototype.updateStorage = function(result){
+	chrome.storage.sync.set(result, function(){console.log("Bookmarks saved!")});
+
+}
+
+
+

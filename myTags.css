@@ -1,0 +1,44 @@
+body {
+	font-family: 'Quicksand', Helvetica, arial, sans-serif; 
+}
+
+h1 {
+	text-align: center;
+	color: #c5c;
+}
+
+#bookmarksMain {
+	width: 920px;
+	height: 100%;
+	margin: auto;
+	clear: both;
+}
+
+#tile {
+	background-color: gray;
+	width: 148px;
+	height: 130px;
+	margin: 1px;
+}
+
+#tileContainer {
+	width: 150px;
+	height: 150px;
+	float: left;
+	margin: 40px;
+}
+
+#linky {
+	width: 148px;
+	height: 130px;
+	margin: 1px;
+	display: block;
+}
+
+a {	
+	margin-top: 5px;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: center;
+	display: block;
+}

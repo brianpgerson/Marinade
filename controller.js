@@ -7,19 +7,35 @@ Controller.prototype.bindListeners = function(){
 	chrome.runtime.onMessage.addListener(this.messageHandler.bind(this));
 }
 
-Controller.prototype.messageHandler = function(request, sender, sendResponse) {
-	if(request.type == "tagIt") {
+Controller.prototype.messageHandler = function(message, sender, sendResponse) {
+	if (message.greeting == "tagIt") {
 		this.tagIt();
+	} else if (message.greeting == "doneTagging"){
+		this.saveTag(message);
+	} else if (message.greeting == "yourTags"){
+		console.log("message received");
+		this.goToBookmarks();
 	}
+}
+
+Controller.prototype.goToBookmarks = function(){
+	chrome.tabs.create({url: "chrome://bookmarks/"});
 }
 
 Controller.prototype.tagIt = function(){
 	this.view.getCurrentTabUrl(function(tab){
-		chrome.tabs.sendMessage(tab.id, {greeting: "new tag", tabUrl: tab.url, tabTitle: tab.title}, function(response) {
-			console.log(response.farewell);
-		});
+		chrome.tabs.sendMessage(tab.id, 
+			{greeting: "createPopUp", tabUrl: tab.url, tabTitle: tab.title});
 	});
 }
+
+Controller.prototype.saveTag = function(message){
+	var title = message.title;
+	var tags = message.tags.split(",");
+	var url = message.url
+	this.model.createNewBookmark(title, tags, url);
+}
+
 
 Controller.prototype.getTagGroups = function(callback){
 	var tagsToCheck = this.pluck(this.model.bookmarks, "tags");
@@ -31,7 +47,7 @@ Controller.prototype.getTagGroups = function(callback){
 		}
 		return obj;
 	}, {});
-	var tagGroups =  filter(tagCounts, function(x){return x > 1});
+	var tagGroups = filter(tagCounts, function(x){return x > 1});
 	console.log(tagGroups);
 }
 
