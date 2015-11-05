@@ -26,19 +26,7 @@ h1 {
 	height: 150px;
 	float: left;
 	margin: 40px;
-}
-
-#linky {
-	width: 148px;
-	height: 130px;
-	margin: 1px;
-	display: block;
-}
-
-a {	
-	margin-top: 5px;
-	text-decoration: none;
-	font-weight: bold;
 	text-align: center;
-	display: block;
 }
+
+

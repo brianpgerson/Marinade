@@ -3,5 +3,4 @@ window.onload = function() {
 	var model = new PrimaryBookmarksTree;
 	var controller = new TagController(view, model);
 	controller.view.display();
-	console.log(controller)
 }
