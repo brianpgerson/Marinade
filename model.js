@@ -6,7 +6,7 @@ PrimaryBookmarksTree.prototype.findOrCreate = function(result){
 	if (result.bookmarksTree != undefined){
 		this.bookmarks = result.bookmarksTree.bookmarks;
 		this.title = result.bookmarksTree.title;
-		this.tagGroups = result.tagGroups;
+		this.tagGroups = this.updatePrimaryTreeWithTagGroups();
 		console.log(this);
 	} else {
 		this.bookmarks = [];
@@ -32,19 +32,18 @@ function TagGroup(tag){
 //called by controller when user tags a new bookmark via the extension
 PrimaryBookmarksTree.prototype.createNewBookmark = function(name, tags, url){
 	var newBookmark = new Bookmark(name, tags, url);
-	chrome.storage.sync.get(function(result){
-		result.bookmarksTree.bookmarks.push(newBookmark);
-		result.bookmarksTree.tagGroups = this.updatePrimaryTreeWithTagGroups(result);
-		this.updateStorage(result);		
-	}.bind(this));
+	this.bookmarks.push(newBookmark);
+	this.updateStorage(this);		
+
 }
 
-PrimaryBookmarksTree.prototype.updatePrimaryTreeWithTagGroups = function(result){	
-	var tagsForGrouping = this.getTagsWithMultipleBookmarks(result.bookmarksTree.bookmarks);
+PrimaryBookmarksTree.prototype.updatePrimaryTreeWithTagGroups = function(){	
+	var tagsForGrouping = this.getTagsWithMultipleBookmarks(this.bookmarks);
+	var tagGroups = [];
 	for(j=0;j<tagsForGrouping.length;j++){
-		result.bookmarksTree.tagGroups.push(this.buildTagGroup(result.bookmarksTree, tagsForGrouping[j]));
+		tagGroups.push(this.buildTagGroup(tagsForGrouping[j]));
 	}
-	return result.bookmarksTree.tagGroups;
+	return tagGroups;
 }
 
 PrimaryBookmarksTree.prototype.getTagsWithMultipleBookmarks = function(bookmarks){
@@ -57,15 +56,15 @@ PrimaryBookmarksTree.prototype.getTagsWithMultipleBookmarks = function(bookmarks
 		}
 		return obj;
 	}, {});
-	var tagGroups = this.filter(tagCounts, function(x){return x > 1});
-	return tagGroups;
+	var tagGroupNames = this.filter(tagCounts, function(x){return x > 1});
+	return tagGroupNames;
 }
 
-PrimaryBookmarksTree.prototype.buildTagGroup = function(bookmarksTree, tag){
+PrimaryBookmarksTree.prototype.buildTagGroup = function(tag){
 	tagGroup = new TagGroup(tag);
-	for(i=0;i<bookmarksTree.bookmarks.length;i++){
-		if(bookmarksTree.bookmarks[i].tags[0] == tag){
-			tagGroup.bookmarks.push(bookmarksTree.bookmarks[i]);
+	for(i=0;i<this.bookmarks.length;i++){
+		if(this.bookmarks[i].tags[0] == tag){
+			tagGroup.bookmarks.push(this.bookmarks[i]);
 		}
 	}
 	if (tagGroup.bookmarks.length != 0){
@@ -74,9 +73,9 @@ PrimaryBookmarksTree.prototype.buildTagGroup = function(bookmarksTree, tag){
 }
 
 
-PrimaryBookmarksTree.prototype.updateStorage = function(result){
-	console.log(JSON.stringify(result));
-	chrome.storage.sync.set({"bookmarksTree": result.bookmarksTree}, function(){console.log("final storage complete")});
+PrimaryBookmarksTree.prototype.updateStorage = function(updatedTree){
+	console.log(JSON.stringify(updatedTree));
+	chrome.storage.sync.set({"bookmarksTree": updatedTree}, function(){console.log("final storage complete")});
 }
 
 
